@@ -23,11 +23,14 @@ namespace DPSMonitor
 
         float magical;
 
+        int sings;
+
         public string Name { get => name; set => name = value; }
         public float Damage { get => damage; set => damage = value; }
         public float Dps { get => dps; set => dps = value; }
         public float Physical { get => physical; set => physical = value; }
         public float Divine { get => divine; set => divine = value; }
         public float Magical { get => magical; set => magical = value; }
+        public int Sings { get => sings; set => sings = value; }
     }
 }

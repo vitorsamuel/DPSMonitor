@@ -28,11 +28,13 @@ namespace DPSMonitor
             this.CheckKeyword("Physical", Color.Orange, 0);
             this.CheckKeyword("Divine", Color.Gold, 0);
             this.CheckKeyword("Magical", Color.Purple, 0);
+            this.CheckKeyword("SINGS", Color.Brown, 0);
+            this.CheckKeyword("**", Color.Brown, 0);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            richTextBox1.Clear();
+           richTextBox1.Clear();
             readFile();
         }
         void readFile()
@@ -45,6 +47,7 @@ namespace DPSMonitor
             int physicalWord = 0;
             int divineWord = 0;
             int magicalWord = 0;
+            
 
             int separator = 0;
             int separatorStart = 0;
@@ -53,11 +56,12 @@ namespace DPSMonitor
             float physical = 0;
             float divine = 0;
             float magical = 0;
+            
 
 
 
             // The file path of the data file
-            string filePath = @"" + textBox1.Text + "\\nwclientLog1.txt";
+            string filePath = @"" + textBox1.Text + "\\nwclientLog2.txt";
 
             // Try to open the file with read access and read/write share
             try
@@ -138,8 +142,19 @@ namespace DPSMonitor
                                     player.Magical = magical;
                                     players.Add(playerName, player);
                                 }
+                                
                             }
-                            //}
+                            if (line.Contains("sings"))
+                            {
+                                playerName = line.Replace(" sings.", "").Replace("[CHAT WINDOW TEXT]","");
+                                separatorStart = playerName.IndexOf("] ")+2;
+                                playerName = playerName.Substring(separatorStart, playerName.Length - separatorStart);
+
+                                if (players.ContainsKey(playerName))
+                                {
+                                    players[playerName].Sings += 1;
+                                }
+                            }
 
                             if (line == null) Thread.Sleep(500);
                         }
@@ -157,8 +172,9 @@ namespace DPSMonitor
             {
                 //Console.WriteLine("Player name: {0}", player.Key + " - > DPS: " + player.Value);
                 //Console.WriteLine("DPS: {0}", player.Value);
-                richTextBox1.AppendText("" + player.Key + " - > DAMAGE: " + player.Value.Damage + " Physical: " + player.Value.Physical + " Magical: "+ player.Value.Magical+
-                    " " + " Divine: " + player.Value.Divine + "\n");
+                richTextBox1.AppendText("" + player.Key + " - > DAMAGE: " + player.Value.Damage + " - >  **SINGS: " + player.Value.Sings +  "\n");
+                //+ " Physical: " + player.Value.Physical + " Magical: "+ player.Value.Magical+
+                //" " + " Divine: " + player.Value.Divine + "\n");
             }
             players.Clear();
         }
