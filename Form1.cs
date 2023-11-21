@@ -28,6 +28,13 @@ namespace DPSMonitor
             this.CheckKeyword("Physical", Color.Orange, 0);
             this.CheckKeyword("Divine", Color.Gold, 0);
             this.CheckKeyword("Magical", Color.Purple, 0);
+            this.CheckKeyword("Cold", Color.LightBlue, 0);
+            this.CheckKeyword("Fire", Color.Red, 0);
+            this.CheckKeyword("Acid", Color.Green, 0);
+            this.CheckKeyword("Positive", Color.Silver, 0);
+            this.CheckKeyword("Negative", Color.DarkCyan, 0);
+            this.CheckKeyword("Eletrical", Color.MidnightBlue, 0);
+            this.CheckKeyword("Sonic", Color.SandyBrown, 0);
             this.CheckKeyword("SINGS", Color.Brown, 0);
             this.CheckKeyword("**", Color.Brown, 0);
         }
@@ -47,7 +54,14 @@ namespace DPSMonitor
             int physicalWord = 0;
             int divineWord = 0;
             int magicalWord = 0;
-            
+            int coldWord = 0;
+            int fireWord = 0;
+            int acidWord = 0;
+            int positiveWord = 0;
+            int negativeWord = 0;
+            int eletricalWord = 0;
+            int sonicWord = 0;
+
 
             int separator = 0;
             int separatorStart = 0;
@@ -56,12 +70,19 @@ namespace DPSMonitor
             float physical = 0;
             float divine = 0;
             float magical = 0;
-            
+            float cold = 0;
+            float fire = 0;
+            float acid = 0;
+            float positive = 0;
+            float negative = 0;
+            float eletrical = 0;
+            float sonic = 0;
+
 
 
 
             // The file path of the data file
-            string filePath = @"" + textBox1.Text + "\\nwclientLog2.txt";
+            string filePath = @"" + textBox1.Text + "\\nwclientLog1.txt";
 
             // Try to open the file with read access and read/write share
             try
@@ -84,6 +105,13 @@ namespace DPSMonitor
                             physicalWord = line.IndexOf("Physical");
                             divineWord = line.IndexOf("Divine");
                             magicalWord = line.IndexOf("Magical");
+                            coldWord = line.IndexOf("Cold");
+                            fireWord = line.IndexOf("Fiew");
+                            acidWord = line.IndexOf("Acid");
+                            positiveWord = line.IndexOf("Positive");
+                            negativeWord = line.IndexOf("Negative");
+                            eletricalWord = line.IndexOf("Eletrical");
+                            sonicWord = line.IndexOf("Sonic");
 
 
                             separator = line.IndexOf(": ");
@@ -121,6 +149,70 @@ namespace DPSMonitor
                                 {
                                     magical = 0;
                                 }
+                                if (magicalWord > 0)
+                                {
+                                    magical = float.Parse(line.Substring(magicalWord - 3, 4).Trim().Trim('(').Trim(':').Trim('M').Trim());
+                                }
+                                else
+                                {
+                                    magical = 0;
+                                }
+                                if (coldWord > 0)
+                                {
+                                    cold = float.Parse(line.Substring(coldWord - 3, 4).Trim().Trim('(').Trim(':').Trim('C').Trim());
+                                }
+                                else
+                                {
+                                    cold = 0;
+                                }
+                                if (fireWord > 0)
+                                {
+                                    fire = float.Parse(line.Substring(fireWord - 3, 4).Trim().Trim('(').Trim(':').Trim('F').Trim());
+                                }
+                                else
+                                {
+                                    fire = 0;
+                                }
+                                if (acidWord > 0)
+                                {
+                                    acid = float.Parse(line.Substring(acidWord - 3, 4).Trim().Trim('(').Trim(':').Trim('A').Trim());
+                                }
+                                else
+                                {
+                                    acid = 0;
+                                }
+                                if (positiveWord > 0)
+                                {
+                                    positive = float.Parse(line.Substring(positiveWord - 3, 4).Trim().Trim('(').Trim(':').Trim('P').Trim());
+                                }
+                                else
+                                {
+                                    positive = 0;
+                                }
+                                if (negativeWord > 0)
+                                {
+                                    negative = float.Parse(line.Substring(negativeWord - 3, 4).Trim().Trim('(').Trim(':').Trim('N').Trim());
+                                }
+                                else
+                                {
+                                    negative = 0;
+                                }
+                                if (eletricalWord > 0)
+                                {
+                                    eletrical = float.Parse(line.Substring(eletricalWord - 3, 4).Trim().Trim('(').Trim(':').Trim('E').Trim());
+                                }
+                                else
+                                {
+                                    eletrical = 0;
+                                }
+                                if (sonicWord > 0)
+                                {
+                                    sonic = float.Parse(line.Substring(sonicWord - 3, 4).Trim().Trim('(').Trim(':').Trim('S').Trim());
+                                }
+                                else
+                                {
+                                    sonic = 0;
+                                }
 
                                 // Check if the player is already in the dictionary
                                 if (players.ContainsKey(playerName))
@@ -130,6 +222,13 @@ namespace DPSMonitor
                                     players[playerName].Physical += physical;
                                     players[playerName].Divine += divine;
                                     players[playerName].Magical += magical;
+                                    players[playerName].Cold += cold;
+                                    players[playerName].Fire += fire;
+                                    players[playerName].Acid += acid;
+                                    players[playerName].Positive += positive;
+                                    players[playerName].Negative += negative;
+                                    players[playerName].Eletrical += eletrical;
+                                    players[playerName].Sonic += sonic;
                                 }
                                 else
                                 {
@@ -140,6 +239,14 @@ namespace DPSMonitor
                                     player.Physical = physical;
                                     player.Divine = divine;
                                     player.Magical = magical;
+                                    player.Cold = cold;
+                                    player.Fire = fire;
+                                    player.Acid = acid;
+                                    player.Positive = positive;
+                                    player.Negative = negative;
+                                    player.Eletrical = eletrical;
+                                    player.Sonic = sonic;                                    
+
                                     players.Add(playerName, player);
                                 }
                                 
@@ -172,9 +279,17 @@ namespace DPSMonitor
             {
                 //Console.WriteLine("Player name: {0}", player.Key + " - > DPS: " + player.Value);
                 //Console.WriteLine("DPS: {0}", player.Value);
-                richTextBox1.AppendText("" + player.Key + " - > DAMAGE: " + player.Value.Damage + " - >  **SINGS: " + player.Value.Sings +  "\n");
-                //+ " Physical: " + player.Value.Physical + " Magical: "+ player.Value.Magical+
-                //" " + " Divine: " + player.Value.Divine + "\n");
+                richTextBox1.AppendText("" + player.Key + " - > DAMAGE: " + player.Value.Damage  //+  "\n");
+                + " Physical: " + player.Value.Physical + " Magical: "+ player.Value.Magical +
+                " Divine: " + player.Value.Divine +
+                " Cold: " + player.Value.Cold +
+                " Fire: " + player.Value.Fire +
+                " Acid: " + player.Value.Acid +
+                " Positive: " + player.Value.Positive +
+                " Negative: " + player.Value.Negative +
+                " Eletrical: " + player.Value.Eletrical +                
+                " Sonic: " + player.Value.Sonic
+                + " - >  **SINGS: " + player.Value.Sings + "\n");
             }
             players.Clear();
         }
