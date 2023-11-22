@@ -8,10 +8,11 @@ namespace DPSMonitor
     public partial class Form1 : Form
     {
         Dictionary<string, Player> players = new Dictionary<string, Player>();
+        System.Timers.Timer aTimer = new System.Timers.Timer();
         public Form1()
         {
             InitializeComponent();
-            System.Timers.Timer aTimer = new System.Timers.Timer();
+
             aTimer = new System.Timers.Timer(10000);
 
             // Hook up the Elapsed event for the timer.
@@ -35,13 +36,14 @@ namespace DPSMonitor
             this.CheckKeyword("Negative", Color.DarkCyan, 0);
             this.CheckKeyword("Eletrical", Color.MidnightBlue, 0);
             this.CheckKeyword("Sonic", Color.SandyBrown, 0);
+            this.CheckKeyword("Pure", Color.RebeccaPurple, 0);
             this.CheckKeyword("SINGS", Color.Brown, 0);
             this.CheckKeyword("**", Color.Brown, 0);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-           richTextBox1.Clear();
+            richTextBox1.Clear();
             readFile();
         }
         void readFile()
@@ -61,6 +63,7 @@ namespace DPSMonitor
             int negativeWord = 0;
             int eletricalWord = 0;
             int sonicWord = 0;
+            int pureWord = 0;
 
 
             int separator = 0;
@@ -77,12 +80,13 @@ namespace DPSMonitor
             float negative = 0;
             float eletrical = 0;
             float sonic = 0;
+            float pure = 0;
 
 
 
 
             // The file path of the data file
-            string filePath = @"" + textBox1.Text + "\\nwclientLog1.txt";
+            string filePath = @"" + textBox1.Text + "\\nwclientLog2.txt";
 
             // Try to open the file with read access and read/write share
             try
@@ -110,8 +114,9 @@ namespace DPSMonitor
                             acidWord = line.IndexOf("Acid");
                             positiveWord = line.IndexOf("Positive");
                             negativeWord = line.IndexOf("Negative");
-                            eletricalWord = line.IndexOf("Eletrical");
+                            eletricalWord = line.IndexOf("Electrical");
                             sonicWord = line.IndexOf("Sonic");
+                            pureWord = line.IndexOf("Pure");
 
 
                             separator = line.IndexOf(": ");
@@ -213,6 +218,14 @@ namespace DPSMonitor
                                 {
                                     sonic = 0;
                                 }
+                                if (pureWord > 0)
+                                {
+                                    pure = float.Parse(line.Substring(pureWord - 3, 4).Trim().Trim('(').Trim(':').Trim('P').Trim());
+                                }
+                                else
+                                {
+                                    pure = 0;
+                                }
 
                                 // Check if the player is already in the dictionary
                                 if (players.ContainsKey(playerName))
@@ -229,6 +242,7 @@ namespace DPSMonitor
                                     players[playerName].Negative += negative;
                                     players[playerName].Eletrical += eletrical;
                                     players[playerName].Sonic += sonic;
+                                    players[playerName].Pure += pure;
                                 }
                                 else
                                 {
@@ -245,16 +259,17 @@ namespace DPSMonitor
                                     player.Positive = positive;
                                     player.Negative = negative;
                                     player.Eletrical = eletrical;
-                                    player.Sonic = sonic;                                    
+                                    player.Sonic = sonic;
+                                    player.Pure = pure;
 
                                     players.Add(playerName, player);
                                 }
-                                
+
                             }
                             if (line.Contains("sings"))
                             {
-                                playerName = line.Replace(" sings.", "").Replace("[CHAT WINDOW TEXT]","");
-                                separatorStart = playerName.IndexOf("] ")+2;
+                                playerName = line.Replace(" sings.", "").Replace("[CHAT WINDOW TEXT]", "");
+                                separatorStart = playerName.IndexOf("] ") + 2;
                                 playerName = playerName.Substring(separatorStart, playerName.Length - separatorStart);
 
                                 if (players.ContainsKey(playerName))
@@ -280,15 +295,16 @@ namespace DPSMonitor
                 //Console.WriteLine("Player name: {0}", player.Key + " - > DPS: " + player.Value);
                 //Console.WriteLine("DPS: {0}", player.Value);
                 richTextBox1.AppendText("" + player.Key + " - > DAMAGE: " + player.Value.Damage  //+  "\n");
-                + " Physical: " + player.Value.Physical + " Magical: "+ player.Value.Magical +
+                + " Physical: " + player.Value.Physical + " Magical: " + player.Value.Magical +
                 " Divine: " + player.Value.Divine +
                 " Cold: " + player.Value.Cold +
                 " Fire: " + player.Value.Fire +
                 " Acid: " + player.Value.Acid +
                 " Positive: " + player.Value.Positive +
                 " Negative: " + player.Value.Negative +
-                " Eletrical: " + player.Value.Eletrical +                
-                " Sonic: " + player.Value.Sonic
+                " Eletrical: " + player.Value.Eletrical +
+                " Sonic: " + player.Value.Sonic +
+                " Pure: " + player.Value.Pure
                 + " - >  **SINGS: " + player.Value.Sings + "\n");
             }
             players.Clear();
@@ -338,6 +354,18 @@ namespace DPSMonitor
                     this.richTextBox1.Select(selectStart, 0);
                     this.richTextBox1.SelectionColor = Color.Black;
                 }
+            }
+        }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            if(aTimer.Enabled) 
+            { 
+                aTimer.Stop(); 
+            }
+            else
+            {
+                aTimer.Start();
             }
         }
     }

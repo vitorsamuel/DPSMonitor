@@ -36,6 +36,7 @@
             button2 = new Button();
             label2 = new Label();
             label3 = new Label();
+            btnStop = new Button();
             SuspendLayout();
             // 
             // richTextBox1
@@ -108,11 +109,22 @@
             label3.TabIndex = 6;
             label3.Text = "Select the NWN log Path and the count will refresh each 5 seconds!";
             // 
+            // btnStop
+            // 
+            btnStop.Location = new Point(692, 36);
+            btnStop.Name = "btnStop";
+            btnStop.Size = new Size(75, 23);
+            btnStop.TabIndex = 7;
+            btnStop.Text = "Stop/Start";
+            btnStop.UseVisualStyleBackColor = true;
+            btnStop.Click += btnStop_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1211, 597);
+            Controls.Add(btnStop);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(button2);
@@ -136,5 +148,6 @@
         private Button button2;
         private Label label2;
         private Label label3;
+        private Button btnStop;
     }
 }

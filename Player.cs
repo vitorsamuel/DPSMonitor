@@ -37,6 +37,8 @@ namespace DPSMonitor
 
         float sonic;
 
+        float pure;
+
         int sings;
 
         public string Name { get => name; set => name = value; }
@@ -53,5 +55,6 @@ namespace DPSMonitor
         public float Negative { get => negative; set => negative = value; }
         public float Eletrical { get => eletrical; set => eletrical = value; }
         public float Sonic { get => sonic; set => sonic = value; }
+        public float Pure { get => pure; set => pure = value; }
     }
 }
