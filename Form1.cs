@@ -86,7 +86,7 @@ namespace DPSMonitor
 
 
             // The file path of the data file
-            string filePath = @"" + textBox1.Text + "\\nwclientLog2.txt";
+            string filePath = @"" + textBox1.Text + "\\nwclientLog1.txt";
 
             // Try to open the file with read access and read/write share
             try

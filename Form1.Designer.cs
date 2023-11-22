@@ -115,7 +115,7 @@
             btnStop.Name = "btnStop";
             btnStop.Size = new Size(75, 23);
             btnStop.TabIndex = 7;
-            btnStop.Text = "Stop/Start";
+            btnStop.Text = "Pause/Resume";
             btnStop.UseVisualStyleBackColor = true;
             btnStop.Click += btnStop_Click;
             // 
